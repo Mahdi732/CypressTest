@@ -1,7 +1,8 @@
 import { MODULE_SELECTOR } from "../ModuleConstants";
+import { TEST_CONFIG } from "../constants";
 class ModulePage {
     visit() {
-        cy.visit('http://localhost:4200/modules');
+        cy.visit(TEST_CONFIG.baseUrl + TEST_CONFIG.modulesUrl);
         return this;
     }
 
@@ -22,9 +23,9 @@ class ModulePage {
      */
     switchLanguage(language) {
         if (language === 'fr') {
-            cy.get(MODULE_SELECTOR.languageSwitcher).find('button').eq(1).click()
-        }else {
-            cy.get(MODULE_SELECTOR.languageSwitcher).find('button').eq(0).click();
+            cy.get(MODULE_SELECTOR.languageSwitcher).contains('button', 'FR').click();
+        } else {
+            cy.get(MODULE_SELECTOR.languageSwitcher).contains('button', 'EN').click();
         }
         return this;
     }

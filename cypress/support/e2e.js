@@ -18,6 +18,7 @@ import './commands'
 
 // Global configuration
 Cypress.on('uncaught:exception', (err, runnable) => {
+  // Keep this only if the app throws a known third-party exception; otherwise it can hide real frontend crashes.
   // Return false to prevent Cypress from failing the test
   // You can customize this based on your needs
   return false;

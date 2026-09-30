@@ -33,11 +33,12 @@ describe('Login Page - Authentication', () => {
 
   describe('Valid Login', () => {
     it('should log in successfully with valid credentials', () => {
+      // The frontend expects `accessToken`, not `token`, so the mock matches the real auth contract.
       cy.intercept('POST', API_CONFIG.loginEndpoint, {
         statusCode: 200,
         body: {
           user: { id: '123', username: TEST_USERS.validUser.username, function: 'admin' },
-          token: 'token'
+          accessToken: 'token'
         }
       }).as('login');
 
@@ -77,11 +78,13 @@ describe('Login Page - Authentication', () => {
 
   describe('Language Switching', () => {
     it('should switch to French', () => {
+      // This checks the actual language toggle on the login page instead of guessing state.
       LoginPage.switchLanguage('fr');
       cy.get('.language-switcher button').eq(1).should('have.class', 'active');
     });
 
     it('should switch to English', () => {
+      // Same check for the English button, which mirrors the frontend language switcher order.
       LoginPage.switchLanguage('en');
       cy.get('.language-switcher button').eq(0).should('have.class', 'active');
     });

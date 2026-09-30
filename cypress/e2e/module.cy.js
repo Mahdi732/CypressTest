@@ -10,7 +10,7 @@ describe('Module Page', () => {
             statusCode: 200,
             body: {
                 user: { id: '123', username: TEST_USERS.validUser.username, function: 'admin' },
-                token: 'token'
+                accessToken: 'token'
             }
         }).as('login');
         LoginPage.login(TEST_USERS.validUser.username, TEST_USERS.validUser.password);
@@ -29,13 +29,13 @@ describe('Module Page', () => {
             ModulePage.switchLanguage('fr');
             cy.get(MODULE_SELECTOR.languageSwitcher)
                 .find(MODULE_SELECTOR.languageSwitcherButton)
-                .eq(1)
+                .contains('FR')
                 .should('have.class', 'active');
         
             ModulePage.switchLanguage('en');
             cy.get(MODULE_SELECTOR.languageSwitcher)
                 .find(MODULE_SELECTOR.languageSwitcherButton)
-                .eq(0)
+                .contains('EN')
                 .should('have.class', 'active')
         });
     });

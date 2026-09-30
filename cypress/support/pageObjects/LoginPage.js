@@ -118,9 +118,9 @@ class LoginPage {
    */
   switchLanguage(language) {
     if (language === 'fr') {
-      cy.get(LOGIN_SELECTORS.languageSwitcher).find('button').eq(1).click();
+      cy.get(LOGIN_SELECTORS.languageSwitcher).contains('button', 'FR').click();
     } else {
-      cy.get(LOGIN_SELECTORS.languageSwitcher).find('button').eq(0).click();
+      cy.get(LOGIN_SELECTORS.languageSwitcher).contains('button', 'EN').click();
     }
     return this;
   }
