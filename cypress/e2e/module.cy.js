@@ -47,4 +47,26 @@ describe('Module Page', () => {
             cy.get('html').should('have.attr', 'data-theme', 'dark');
         })
     })
+
+    describe('notification', () => {
+        it('should show notification popup', () => {
+            ModulePage.clickNotification();
+            cy.get('.p-popover-content').should('be.visible');
+        });
+    })
+
+    describe('theme configiration', () => {
+        it('should change the theme color', () => {
+            ModulePage.clickThemeConfiguration();
+            cy.get('.p-popover-content').should('be.visible');
+            ModulePage.switchThemeConfiguration();
+        });
+
+        it('should change design system', () => {
+            ModulePage.clickThemeConfiguration();
+            cy.get('.p-popover-content').should('be.visible');
+            ModulePage.switchDesignSystem()
+        })
+
+    })
 });

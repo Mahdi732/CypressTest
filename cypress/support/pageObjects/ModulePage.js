@@ -13,7 +13,7 @@ class ModulePage {
         cy.get(MODULE_SELECTOR.languageSwitcher).find('button').should('have.length', 2);
         cy.get(MODULE_SELECTOR.themeConfigButton).should('be.visible');
         cy.get(MODULE_SELECTOR.profileAvatar).should('be.visible');
-        cy.get()
+        cy.get(MODULE_SELECTOR.notifiactionButton).should('be.visible');
         return this;
     }
 
@@ -32,6 +32,35 @@ class ModulePage {
     switchTheme() {
         cy.get(MODULE_SELECTOR.themeToggleButton).click();
         return this;
+    }
+
+    clickNotification() {
+        cy.get(MODULE_SELECTOR.notifiactionButton).click();
+        return this;
+    }
+
+    clickThemeConfiguration() {
+        cy.get(MODULE_SELECTOR.themeConfigButton).click();
+        return this;
+    }
+
+    switchThemeConfiguration() {
+        cy.get('.color-presets').should('be.visible');
+        cy.get('.color-presets').find('button').should('have.length', 6)
+        for (let i = 0; i < 6; i++) {
+            cy.get('.color-presets').find('button').eq(i).click();
+            this.clickThemeConfiguration();
+        }
+    }
+
+    switchDesignSystem() {
+        cy.get('.design-grid').should('be.visible');
+        cy.get('.design-grid').find('button').should('have.length', 3);
+        for (let i = 0; i < 3; i++) {
+            cy.get('.design-grid').find('button').eq(i).click();
+            cy.get('.design-grid').find('button').eq(i).should('have.class', 'active');
+            this.clickThemeConfiguration();
+        }
     }
 
 }
