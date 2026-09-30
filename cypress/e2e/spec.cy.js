@@ -49,7 +49,7 @@ describe('Login Page - Authentication', () => {
 
   describe('Invalid Credentials', () => {
     it('should show error on invalid credentials (401)', () => {
-      cy.intercept('POST', 'API_CONFIG.loginEndpoint', {
+      cy.intercept('POST', API_CONFIG.loginEndpoint, {
         statusCode: 401,
         body: { message: 'Unauthorized' }
       }).as('invalid');

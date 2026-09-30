@@ -32,7 +32,7 @@ export const LOGIN_SELECTORS = {
   errorMessage: '.error-message',
   loginForm: '.actual-form',
   themeToggle: '.theme-toggle',
-  languageSwitcher: '.lang-pill'
+  languageSwitcher: '.language-switcher'
 };
 
 /**

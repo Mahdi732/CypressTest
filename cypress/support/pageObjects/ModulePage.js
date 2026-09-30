@@ -8,9 +8,12 @@ class ModulePage {
     verifyLoaded() {
         cy.get(MODULE_SELECTOR.moduleContainer).should('be.visible');
         cy.get(MODULE_SELECTOR.moduleMain).should('be.visible');
-        cy.get(MODULE_SELECTOR.modernCard).should('be.visible');
+        cy.get(MODULE_SELECTOR.modernCard).should('have.length', 5);
         cy.get(MODULE_SELECTOR.themeToggleButton).should('be.visible');
-        cy.get(MODULE_SELECTOR.languageSwitcher).should('have.length', 3)
+        cy.get(MODULE_SELECTOR.languageSwitcher).find('button').should('have.length', 2);
+        cy.get(MODULE_SELECTOR.themeConfigButton).should('be.visible');
+        cy.get(MODULE_SELECTOR.profileAvatar).should('be.visible');
+        cy.get()
         return this;
     }
 
@@ -18,10 +21,10 @@ class ModulePage {
      * @param {string} language
      */
     switchLanguage(language) {
-        if (language == 'fr') {
-            cy.get(MODULE_SELECTOR.languageSwitcher + ' button').eq(1).click()
+        if (language === 'fr') {
+            cy.get(MODULE_SELECTOR.languageSwitcher).find('button').eq(1).click()
         }else {
-            cy.get(MODULE_SELECTOR.languageSwitcher + 'button').eq(0).click();
+            cy.get(MODULE_SELECTOR.languageSwitcher).find('button').eq(0).click();
         }
         return this;
     }
