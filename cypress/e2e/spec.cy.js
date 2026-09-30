@@ -78,15 +78,13 @@ describe('Login Page - Authentication', () => {
 
   describe('Language Switching', () => {
     it('should switch to French', () => {
-      // This checks the actual language toggle on the login page instead of guessing state.
       LoginPage.switchLanguage('fr');
-      cy.get('.language-switcher button').eq(1).should('have.class', 'active');
+      cy.get('.language-switcher').contains('button', 'FR').should('have.class', 'active');
     });
 
     it('should switch to English', () => {
-      // Same check for the English button, which mirrors the frontend language switcher order.
       LoginPage.switchLanguage('en');
-      cy.get('.language-switcher button').eq(0).should('have.class', 'active');
+      cy.get('.language-switcher').contains('button', 'EN').should('have.class', 'active');
     });
   });
 

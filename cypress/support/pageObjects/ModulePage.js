@@ -48,20 +48,21 @@ class ModulePage {
     switchThemeConfiguration() {
         cy.get('.color-presets').should('be.visible');
         cy.get('.color-presets').find('button').should('have.length', 6)
-        for (let i = 0; i < 6; i++) {
-            cy.get('.color-presets').find('button').eq(i).click();
+        cy.get('.color-presets').find('button').each(($button) => {
+            cy.wrap($button).click();
             this.clickThemeConfiguration();
-        }
+        });
     }
 
     switchDesignSystem() {
         cy.get('.design-grid').should('be.visible');
         cy.get('.design-grid').find('button').should('have.length', 3);
-        for (let i = 0; i < 3; i++) {
-            cy.get('.design-grid').find('button').eq(i).click();
-            cy.get('.design-grid').find('button').eq(i).should('have.class', 'active');
+        cy.get('.design-grid').find('button').each(($button) => {
+            const label = $button.text().trim();
+            cy.wrap($button).click();
+            cy.contains('.design-grid .design-item', label).should('have.class', 'active');
             this.clickThemeConfiguration();
-        }
+        });
     }
 
 }
