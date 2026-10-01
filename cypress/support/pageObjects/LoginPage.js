@@ -1,4 +1,4 @@
-import { LOGIN_SELECTORS, TEST_CONFIG } from '../constants';
+import { LOGIN_SELECTORS, TEST_CONFIG } from '../constant/constants';
 
 class LoginPage {
 

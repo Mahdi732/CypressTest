@@ -1,6 +1,6 @@
-import { DEEP_REGISTRY_DASHBOARD_SELECTORS } from '../deepRegistryDashboardSelectors';
-import { TEST_CONFIG } from '../constants';
-import { seedBackOfficeSession } from '../backOfficeSession';
+import { DEEP_REGISTRY_DASHBOARD_SELECTORS } from '../../constant/deepRegistryDashboardSelectors';
+import { TEST_CONFIG } from '../../constant/constants';
+import { seedBackOfficeSession } from '../../backOfficeSession';
 
 
 class DeepRegistryDashboardPage {
@@ -26,8 +26,8 @@ class DeepRegistryDashboardPage {
         cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.appRoot).should('exist');
         cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.pageBody).should('be.visible');
         cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.hero).should('be.visible');
-        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.pageTitle).should('be.visible').and('not.be.empty');
-        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.registryVisual).should('be.visible');
+        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.pageTitle).should('be.visible').should('contain.text', 'Deep Registry Dashboard');
+        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.registryVisual).should('be.visible').should('have.length.greaterThan', 0);
         return this;
     }
 
@@ -89,6 +89,18 @@ class DeepRegistryDashboardPage {
         cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.partyChartCards).should('have.length', 2);
         cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.partyD3Charts).should('have.length', 2);
         return this;
+    }
+
+    companyPeriodTest() {
+        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).should('have.length', 3);
+        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).eq(0).click();
+        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).eq(0).should('have.class', 'active');
+
+        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).eq(1).click();
+        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).eq(1).should('have.class', 'active');
+
+        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).eq(2).click();
+        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).eq(2).should('have.class', 'active');
     }
 }
 

@@ -1,10 +1,9 @@
-import DeepRegistryDashboardPage from '../../support/pageObjects/DeepRegistryDashboardPage';
-import { DEEP_REGISTRY_DASHBOARD_SELECTORS } from '../../support/deepRegistryDashboardSelectors';
+import DeepRegistryDashboardPage from '../../support/pageObjects/Deep-registry-logic/DeepRegistryDashboardPage';
+import { DEEP_REGISTRY_DASHBOARD_SELECTORS } from '../../support/constant/deepRegistryDashboardSelectors';
 
 describe('Deep Registry Dashboard', () => {
   beforeEach(() => {
     DeepRegistryDashboardPage.visitWithSession();
-    cy.location('pathname', { timeout: 10000 }).should('eq', '/deep-registry/dashboard');
     DeepRegistryDashboardPage.verifyPageLoaded();
   });
 
@@ -38,15 +37,7 @@ describe('Deep Registry Dashboard', () => {
   });
 
   it('should allow switching the company users period filters', () => {
-    cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).should('have.length', 3);
-    cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).eq(0).click();
-    cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).eq(0).should('have.class', 'active');
-
-    cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).eq(1).click();
-    cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).eq(1).should('have.class', 'active');
-
-    cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).eq(2).click();
-    cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.companyPeriodButtons).eq(2).should('have.class', 'active');
+    DeepRegistryDashboardPage.companyPeriodTest();
   });
 
   it('should keep the dashboard controls visible and interactive', () => {
