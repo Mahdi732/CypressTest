@@ -1,20 +1,33 @@
 import { MODULE_SELECTOR } from "../ModuleConstants";
 import { TEST_CONFIG } from "../constants";
+import { seedBackOfficeSession } from '../backOfficeSession';
 class ModulePage {
-    visit() {
-        cy.visit(TEST_CONFIG.baseUrl + TEST_CONFIG.modulesUrl);
-        return this;
+    
+    visitWithSession() {
+        return cy.env(["BACK_OFFICE_SESSION"]).then((env) => {
+            const session = env.BACK_OFFICE_SESSION;
+
+            if (!session?.token || !session?.user) {
+                throw new Error('Missing BACK_OFFICE_SESSION. Create Tests/.cypress.env.json with token and user data.');
+            }
+
+            cy.visit(TEST_CONFIG.baseUrl + TEST_CONFIG.modulesUrl, {
+                onBeforeLoad(win) {
+                    seedBackOfficeSession(win, session);
+                }
+            });
+        });
     }
 
     verifyLoaded() {
-        cy.get(MODULE_SELECTOR.moduleContainer).should('be.visible');
-        cy.get(MODULE_SELECTOR.moduleMain).should('be.visible');
-        cy.get(MODULE_SELECTOR.modernCard).should('have.length', 5);
-        cy.get(MODULE_SELECTOR.themeToggleButton).should('be.visible');
-        cy.get(MODULE_SELECTOR.languageSwitcher).find('button').should('have.length', 2);
-        cy.get(MODULE_SELECTOR.themeConfigButton).should('be.visible');
-        cy.get(MODULE_SELECTOR.profileAvatar).should('be.visible');
-        cy.get(MODULE_SELECTOR.notifiactionButton).should('be.visible');
+        cy.get(MODULE_SELECTOR.moduleContainer, { timeout : 5000}).should('be.visible');
+        cy.get(MODULE_SELECTOR.moduleMain, { timeout : 5000}).should('be.visible');
+        cy.get(MODULE_SELECTOR.modernCard, { timeout : 5000}).should('have.length', 5);
+        cy.get(MODULE_SELECTOR.themeToggleButton, { timeout : 5000}).should('be.visible');
+        cy.get(MODULE_SELECTOR.languageSwitcher, { timeout : 5000}).find(MODULE_SELECTOR.languageSwitcherButton).should('have.length', 2);
+        cy.get(MODULE_SELECTOR.themeConfigButton, { timeout : 5000}).should('be.visible');
+        cy.get(MODULE_SELECTOR.profileAvatar, { timeout : 5000}).should('be.visible');
+        cy.get(MODULE_SELECTOR.notificationButton, { timeout : 5000}).should('be.visible');
         return this;
     }
 
@@ -36,7 +49,7 @@ class ModulePage {
     }
 
     clickNotification() {
-        cy.get(MODULE_SELECTOR.notifiactionButton).click();
+        cy.get(MODULE_SELECTOR.notificationButton).click();
         return this;
     }
 
@@ -45,19 +58,28 @@ class ModulePage {
         return this;
     }
 
+    openModuleByCode(code) {
+        cy.contains(MODULE_SELECTOR.modernCard, code)
+            .scrollIntoView()
+            .should('be.visible')
+            .click();
+        return this;
+    }
+
     switchThemeConfiguration() {
-        cy.get('.color-presets').should('be.visible');
-        cy.get('.color-presets').find('button').should('have.length', 6)
-        cy.get('.color-presets').find('button').each(($button) => {
+        cy.get(MODULE_SELECTOR.themePopover).should('be.visible');
+        cy.get(MODULE_SELECTOR.themePopover).find('.color-presets button').should('have.length', 6);
+        cy.get(MODULE_SELECTOR.themePopover).find('.color-presets button').each(($button) => {
             cy.wrap($button).click();
             this.clickThemeConfiguration();
         });
     }
 
     switchDesignSystem() {
-        cy.get('.design-grid').should('be.visible');
-        cy.get('.design-grid').find('button').should('have.length', 3);
-        cy.get('.design-grid').find('button').each(($button) => {
+        cy.get(MODULE_SELECTOR.themePopover).should('be.visible');
+        cy.get(MODULE_SELECTOR.themePopover).find('.design-grid').should('be.visible');
+        cy.get(MODULE_SELECTOR.themePopover).find('.design-grid button').should('have.length', 3);
+        cy.get(MODULE_SELECTOR.themePopover).find('.design-grid button').each(($button) => {
             const label = $button.text().trim();
             cy.wrap($button).click();
             cy.contains('.design-grid .design-item', label).should('have.class', 'active');

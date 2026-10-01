@@ -7,6 +7,7 @@ export const TEST_CONFIG = {
   baseUrl: 'http://localhost:4200',
   loginUrl: '/login',
   modulesUrl: '/modules',
+  deepRegestryDashboardUrl : '/deep-registry/dashboard',
   defaultTimeout: 5000,
 };
 
@@ -41,4 +42,3 @@ export const LOGIN_SELECTORS = {
 export const API_CONFIG = {
   loginEndpoint: '**/api/auth/login',
 };
-

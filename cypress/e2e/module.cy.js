@@ -1,26 +1,29 @@
-import { MODULE_SELECTOR } from '../support/ModuleConstants';
-import { TEST_USERS, API_CONFIG } from '../support/constants';
-import LoginPage from '../support/pageObjects/LoginPage';
+import { MODULE_SELECTOR, MODULE_NAVIGATION_CASES } from '../support/ModuleConstants';
 import ModulePage from '../support/pageObjects/ModulePage';
+
+
+
+
 
 describe('Module Page', () => {
     beforeEach(() => {
-        LoginPage.visit()
-        cy.intercept('POST', API_CONFIG.loginEndpoint, {
-            statusCode: 200,
-            body: {
-                user: { id: '123', username: TEST_USERS.validUser.username, function: 'admin' },
-                accessToken: 'token'
-            }
-        }).as('login');
-        LoginPage.login(TEST_USERS.validUser.username, TEST_USERS.validUser.password);
-        cy.wait('@login');
-        LoginPage.verifyLoginSuccess('/modules');
+        ModulePage.visitWithSession();
+        cy.location('pathname', { timeout: 10000 }).should('eq', '/modules');
+        ModulePage.verifyLoaded();
     });
 
     it('should load the modules page successfully', () => {
         ModulePage.verifyLoaded();
         cy.url().should('include', '/modules');
+    });
+
+    describe('module navigation', () => {
+        MODULE_NAVIGATION_CASES.forEach(({ name, code, expectedPath }) => {
+            it(`should navigate to ${name} when its card is clicked`, () => {
+                ModulePage.openModuleByCode(code);
+                cy.location('pathname', { timeout: 10000 }).should('eq', expectedPath);
+            });
+        });
     });
 
     describe('language switching', () => {
@@ -31,7 +34,7 @@ describe('Module Page', () => {
                 .find(MODULE_SELECTOR.languageSwitcherButton)
                 .contains('FR')
                 .should('have.class', 'active');
-        
+
             ModulePage.switchLanguage('en');
             cy.get(MODULE_SELECTOR.languageSwitcher)
                 .find(MODULE_SELECTOR.languageSwitcherButton)
@@ -51,21 +54,21 @@ describe('Module Page', () => {
     describe('notification', () => {
         it('should show notification popup', () => {
             ModulePage.clickNotification();
-            cy.get('.p-popover-content').should('be.visible');
+            cy.get(MODULE_SELECTOR.notificationPopover).should('be.visible');
         });
     })
 
     describe('theme configiration', () => {
         it('should change the theme color', () => {
             ModulePage.clickThemeConfiguration();
-            cy.get('.p-popover-content').should('be.visible');
+            cy.get(MODULE_SELECTOR.themePopover).should('be.visible');
             ModulePage.switchThemeConfiguration();
         });
 
         it('should change design system', () => {
             ModulePage.clickThemeConfiguration();
-            cy.get('.p-popover-content').should('be.visible');
-            ModulePage.switchDesignSystem()
+            cy.get(MODULE_SELECTOR.themePopover).should('be.visible');
+            ModulePage.switchDesignSystem();
         })
 
     })

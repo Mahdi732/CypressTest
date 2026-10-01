@@ -1,6 +1,7 @@
 import LoginPage from '../support/pageObjects/LoginPage';
 import { TEST_USERS, LOGIN_SELECTORS, API_CONFIG } from '../support/constants';
 
+
 describe('Login Page - Authentication', () => {
   beforeEach(() => {
     LoginPage.visit();
@@ -33,30 +34,20 @@ describe('Login Page - Authentication', () => {
 
   describe('Valid Login', () => {
     it('should log in successfully with valid credentials', () => {
-      // The frontend expects `accessToken`, not `token`, so the mock matches the real auth contract.
-      cy.intercept('POST', API_CONFIG.loginEndpoint, {
-        statusCode: 200,
-        body: {
-          user: { id: '123', username: TEST_USERS.validUser.username, function: 'admin' },
-          accessToken: 'token'
-        }
-      }).as('login');
+      cy.intercept('POST', API_CONFIG.loginEndpoint).as('login');
 
       LoginPage.login(TEST_USERS.validUser.username, TEST_USERS.validUser.password);
-      cy.wait('@login');
+      cy.wait('@login').its('response.statusCode').should('eq', 200);
       cy.url().should('include', '/modules');
     });
   });
 
   describe('Invalid Credentials', () => {
     it('should show error on invalid credentials (401)', () => {
-      cy.intercept('POST', API_CONFIG.loginEndpoint, {
-        statusCode: 401,
-        body: { message: 'Unauthorized' }
-      }).as('invalid');
+      cy.intercept('POST', API_CONFIG.loginEndpoint).as('invalid');
 
       LoginPage.login('wrong', 'wrong');
-      cy.wait('@invalid');
+      cy.wait('@invalid').its('response.statusCode').should('eq', 401);
       cy.url().should('include', '/login');
       cy.get(LOGIN_SELECTORS.errorMessage).should('be.visible');
     });

@@ -3,17 +3,22 @@ import { LOGIN_SELECTORS, TEST_CONFIG } from '../constants';
 class LoginPage {
 
   visit() {
-    cy.visit(TEST_CONFIG.baseUrl + TEST_CONFIG.loginUrl);
+    cy.visit(TEST_CONFIG.baseUrl + TEST_CONFIG.loginUrl, {
+      onBeforeLoad(win) {
+        win.localStorage.clear();
+        win.sessionStorage.clear();
+      }
+    });
     this.verifyPageLoaded();
     return this;
   }
 
 
   verifyPageLoaded() {
-    cy.get(LOGIN_SELECTORS.loginForm).should('be.visible');
-    cy.get(LOGIN_SELECTORS.usernameInput).should('be.visible');
-    cy.get(LOGIN_SELECTORS.passwordInput).should('be.visible');
-    cy.get(LOGIN_SELECTORS.submitButton).should('be.visible');
+    cy.get(LOGIN_SELECTORS.loginForm, { timeout: 5000 }).should('be.visible');
+    cy.get(LOGIN_SELECTORS.usernameInput, { timeout: 5000 }).should('be.visible');
+    cy.get(LOGIN_SELECTORS.passwordInput, { timeout: 5000 }).should('be.visible');
+    cy.get(LOGIN_SELECTORS.submitButton, { timeout: 5000 }).should('be.visible');
     return this;
   }
 
