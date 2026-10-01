@@ -23,7 +23,7 @@ export const DEEP_REGISTRY_DASHBOARD_SELECTORS = {
   userName: '.user-name',
   userRole: '.user-role',
   userAvatar: '.user-avatar',
-  sidebarToggle: '.sidebar-toggle-btn',
+  sidebarToggle: '.menu-toggle-btn',
   searchInput: '.search-bar input',
   themeToggle: '.theme-toggle-btn',
   languageButtons: '.lang-pill-btn',

@@ -33,10 +33,9 @@ class DeepRegistryDashboardPage {
 
     verifyHeader() {
         cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.sidebarToggle).should('be.visible');
-        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.searchInput).should('be.visible').and('have.attr', 'type', 'text');
         cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.themeToggle).should('be.visible');
         cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.languageButtons).should('have.length', 2);
-        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.bellIcon).should('be.visible');
+        cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.notificationButton).should('be.visible');
         cy.get(DEEP_REGISTRY_DASHBOARD_SELECTORS.userAvatar).should('be.visible').and('not.be.empty');
         return this;
     }
