@@ -1,4 +1,4 @@
-import { MODULE_SELECTOR, MODULE_NAVIGATION_CASES } from '../support/ModuleConstants';
+import { MODULE_SELECTOR, MODULE_NAVIGATION_CASES } from '../support/constant/ModuleConstants';
 import ModulePage from '../support/pageObjects/ModulePage';
 
 

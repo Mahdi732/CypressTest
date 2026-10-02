@@ -1,43 +1,55 @@
 /**
- * Test Constants and Test Data
- * Centralized location for test data to avoid hard-coding values
+ * Test configuration
  */
-
 export const TEST_CONFIG = {
   baseUrl: 'http://localhost:4200',
   loginUrl: '/login',
   modulesUrl: '/modules',
-  deepRegestryDashboardUrl : '/deep-registry/dashboard',
+  deepRegistryDashboardUrl: '/deep-registry/dashboard',
   defaultTimeout: 5000,
 };
 
+/**
+ * Test users
+ */
 export const TEST_USERS = {
   validUser: {
     username: 'yassine',
     password: 'yassine1',
   },
+
   invalidCredentials: {
     username: 'yassine',
     password: 'wrongpassword',
   },
+
   invalidUser: {
     username: 'nonexistent',
     password: 'password123',
   },
 };
 
+/**
+ * Login page selectors
+ */
 export const LOGIN_SELECTORS = {
+  loginForm: '.actual-form',
   usernameInput: '#username',
   passwordInput: '#password',
   submitButton: '.submit-btn',
   errorMessage: '.error-message',
-  loginForm: '.actual-form',
+
   themeToggle: '.theme-toggle',
-  languageSwitcher: '.language-switcher'
+  languageSwitcher: '.language-switcher',
+
+  brandImage: '.form-brand img',
+  formTitle: '.form-header h2',
+
+  loadingIcon: '.pi-spinner',
 };
 
 /**
- * API and Route configurations
+ * API configuration
  */
 export const API_CONFIG = {
   loginEndpoint: '**/api/auth/login',

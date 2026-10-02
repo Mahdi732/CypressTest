@@ -1,5 +1,5 @@
-import { MODULE_SELECTOR } from "../ModuleConstants";
-import { TEST_CONFIG } from "../constants";
+import { MODULE_SELECTOR } from "../constant/ModuleConstants";
+import { TEST_CONFIG } from "../constant/constants";
 import { seedBackOfficeSession } from '../backOfficeSession';
 class ModulePage {
     
