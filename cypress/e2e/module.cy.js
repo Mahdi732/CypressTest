@@ -1,75 +1,89 @@
-import { MODULE_SELECTOR, MODULE_NAVIGATION_CASES } from '../support/constant/ModuleConstants';
+import {
+  MODULE_SELECTOR,
+  MODULE_NAVIGATION_CASES,
+} from '../support/constant/ModuleConstants';
+
 import ModulePage from '../support/pageObjects/ModulePage';
+import { TEST_CONFIG } from '../support/constant/constants';
 
+describe('Modules Page', () => {
+  beforeEach(() => {
+    ModulePage.visitWithSession();
 
+    cy.location('pathname', {
+      timeout: TEST_CONFIG.defaultTimeout,
+    }).should('eq', TEST_CONFIG.modulesUrl);
 
+    ModulePage.verifyLoaded();
+  });
 
-
-describe('Module Page', () => {
-    beforeEach(() => {
-        ModulePage.visitWithSession();
-        cy.location('pathname', { timeout: 10000 }).should('eq', '/modules');
-        ModulePage.verifyLoaded();
-    });
-
+  describe('Page rendering', () => {
     it('should load the modules page successfully', () => {
-        ModulePage.verifyLoaded();
-        cy.url().should('include', '/modules');
+        
+      cy.location('pathname').should('eq', TEST_CONFIG.modulesUrl);
+      ModulePage.verifyLoaded();
+    });
+  });
+
+  describe('Module navigation', () => {
+    MODULE_NAVIGATION_CASES.forEach(
+      ({ name, code, expectedPath }) => {
+        it(`should navigate to ${name} from its module card`, () => {
+          ModulePage.openModuleByCode(code);
+
+          cy.location('pathname', {
+            timeout: TEST_CONFIG.defaultTimeout,
+          }).should('eq', expectedPath);
+        });
+      }
+    );
+
+    it('verify color are active ', function() {});
+  });
+
+  describe('Language switching', () => {
+    it('should switch the interface to French and English', () => {
+      ModulePage.switchLanguage('fr');
+      ModulePage.verifyActiveLanguage('fr');
+
+      ModulePage.switchLanguage('en');
+      ModulePage.verifyActiveLanguage('en');
+    });
+  });
+
+  describe('Theme switching', () => {
+    it('should switch the interface to dark theme', () => {
+      ModulePage.verifyTheme('light');
+
+      ModulePage.switchTheme();
+
+      ModulePage.verifyTheme('dark');
+    });
+  });
+
+  describe('Notifications', () => {
+    it('should open the notification panel', () => {
+      ModulePage.openNotificationPanel();
+
+      cy.get(MODULE_SELECTOR.notificationPopover)
+        .should('exist')
+        .and('be.visible');
+    });
+  });
+
+  describe('Theme configuration', () => {
+    it('should allow selecting each color preset', () => {
+      ModulePage.openThemeConfiguration();
+      ModulePage.verifyThemePanel();
+
+      ModulePage.verifyColorPresets();
     });
 
-    describe('module navigation', () => {
-        MODULE_NAVIGATION_CASES.forEach(({ name, code, expectedPath }) => {
-            it(`should navigate to ${name} when its card is clicked`, () => {
-                ModulePage.openModuleByCode(code);
-                cy.location('pathname', { timeout: 10000 }).should('eq', expectedPath);
-            });
-        });
+    it('should allow selecting each design system', () => {
+      ModulePage.openThemeConfiguration();
+      ModulePage.verifyThemePanel();
+
+      ModulePage.verifyDesignSystems();
     });
-
-    describe('language switching', () => {
-
-        it('should switch languge to french', () => {
-            ModulePage.switchLanguage('fr');
-            cy.get(MODULE_SELECTOR.languageSwitcher)
-                .find(MODULE_SELECTOR.languageSwitcherButton)
-                .contains('FR')
-                .should('have.class', 'active');
-
-            ModulePage.switchLanguage('en');
-            cy.get(MODULE_SELECTOR.languageSwitcher)
-                .find(MODULE_SELECTOR.languageSwitcherButton)
-                .contains('EN')
-                .should('have.class', 'active')
-        });
-    });
-
-    describe('theme switching', () => {
-
-        it('should change theme', () => {
-            ModulePage.switchTheme();
-            cy.get('html').should('have.attr', 'data-theme', 'dark');
-        })
-    })
-
-    describe('notification', () => {
-        it('should show notification popup', () => {
-            ModulePage.clickNotification();
-            cy.get(MODULE_SELECTOR.notificationPopover).should('be.visible');
-        });
-    })
-
-    describe('theme configiration', () => {
-        it('should change the theme color', () => {
-            ModulePage.clickThemeConfiguration();
-            cy.get(MODULE_SELECTOR.themePopover).should('be.visible');
-            ModulePage.switchThemeConfiguration();
-        });
-
-        it('should change design system', () => {
-            ModulePage.clickThemeConfiguration();
-            cy.get(MODULE_SELECTOR.themePopover).should('be.visible');
-            ModulePage.switchDesignSystem();
-        })
-
-    })
+  });
 });

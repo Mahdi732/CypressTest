@@ -3,7 +3,6 @@ import {
   TEST_USERS,
   LOGIN_SELECTORS,
   API_CONFIG,
-  TEST_CONFIG,
 } from '../support/constant/constants';
 
 describe('Login Page - Authentication', () => {
