@@ -4,6 +4,8 @@ const path = require('path');
 
 module.exports = defineConfig({
   e2e: {
+    viewportWidth: 1920,
+    viewportHeight: 1080,
     numTestsKeptInMemory: 0,
     setupNodeEvents(on, config) {
       const envFilePath = path.join(__dirname, '.cypress.env.json');
