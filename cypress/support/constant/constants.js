@@ -5,6 +5,7 @@ export const TEST_CONFIG = {
   baseUrl: 'http://localhost:4200',
   loginUrl: '/login',
   modulesUrl: '/modules',
+  vesselsUrl: '/deep-registry/vessels',
   deepRegistryDashboardUrl: '/deep-registry/dashboard',
   defaultTimeout: 5000,
 };
